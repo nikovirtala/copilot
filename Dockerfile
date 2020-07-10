@@ -12,16 +12,16 @@ RUN adduser \
   -U \
   copilot
 
-WORKDIR /copilot
+WORKDIR /tmp
 
 RUN COPILOT_VERSION=${COPILOT_VERSION:-$(curl -s https://api.github.com/repos/aws/copilot-cli/releases/latest | jq -r .tag_name | sed 's/v//g')} \
   && curl -sSLO https://github.com/aws/copilot-cli/releases/download/v${COPILOT_VERSION}/copilot_${COPILOT_VERSION}_linux_amd64.tar.gz \
   && tar -zxvf copilot_${COPILOT_VERSION}_linux_amd64.tar.gz \
   && rm -f copilot_${COPILOT_VERSION}_linux_amd64.tar.gz \
-  && chown -R copilot:copilot /copilot
+  && mv copilot /usr/local/bin/
 
-COPY entrypoint.sh entrypoint.sh
+WORKDIR /copilot
 
 USER copilot
 
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["copilot"]

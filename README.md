@@ -15,6 +15,7 @@ This is my personal side project and has nothing to do with copilot or AWS.
 ```sh
 copilot() {
   docker run --rm -it \
+  -v "${PWD}:/copilot" \
   -v "${HOME}/.aws:/copilot/.aws" \
   nikovirtala/copilot \
   $@
@@ -24,5 +25,5 @@ copilot() {
 + Run the dockerized `copilot`:
 
 ```sh
-copilot help
+copilot
 ```
