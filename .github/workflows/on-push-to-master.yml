@@ -1,0 +1,18 @@
+name: On Push to Master - Build and Push to Docker Hub
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          repository: nikovirtala/copilot
+          tag_with_ref: true
+          tag_with_sha: true
+          tags: latest
