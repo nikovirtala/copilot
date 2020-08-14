@@ -18,7 +18,8 @@ RUN COPILOT_VERSION=${COPILOT_VERSION:-$(curl -s https://api.github.com/repos/aw
   && curl -sSLO https://github.com/aws/copilot-cli/releases/download/v${COPILOT_VERSION}/copilot_${COPILOT_VERSION}_linux_amd64.tar.gz \
   && tar -zxvf copilot_${COPILOT_VERSION}_linux_amd64.tar.gz \
   && rm -f copilot_${COPILOT_VERSION}_linux_amd64.tar.gz \
-  && mv copilot /usr/local/bin/
+  && chmod +x copilot/copilot-linux-v${COPILOT_VERSION} \
+  && mv copilot/copilot-linux-v${COPILOT_VERSION} /usr/local/bin/copilot
 
 WORKDIR /copilot
 
