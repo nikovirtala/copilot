@@ -1,0 +1,29 @@
+name: On Pull Request - Run Aqua Security Trivy Vulnerability Scan
+on:
+  pull_request:
+
+jobs:
+  trivy-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Build an image from Dockerfile
+        run: |
+          docker build -t docker.io/nikovirtala/copilot:${{ github.sha }} .
+      - name: Run vulnerability scanner
+        uses: aquasecurity/trivy-action@0.0.8
+        with:
+          image-ref: "docker.io/nikovirtala/copilot:${{ github.sha }}"
+          format: "template"
+          template: "@/contrib/sarif.tpl"
+          output: "trivy-results.sarif"
+      - name: Upload Trivy scan results to Security tab
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: "trivy-results.sarif"
+      - name: Upload scan results as an artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: trivy-results
+          path: trivy-results.sarif
