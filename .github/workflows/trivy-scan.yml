@@ -1,6 +1,13 @@
-name: On Pull Request - Run Aqua Security Trivy Vulnerability Scan
+name: Run Aqua Security Trivy Vulnerability Scan
 on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
+  push:
+    branches:
+      - main
   pull_request:
+    branches:
+      - main
 
 jobs:
   trivy-scan:
