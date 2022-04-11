@@ -30,7 +30,7 @@ jobs:
         with:
           sarif_file: "trivy-results.sarif"
       - name: Upload scan results as an artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: trivy-results
           path: trivy-results.sarif
